@@ -27,31 +27,31 @@ from ipywidgets import AppLayout, Button, Layout
 # In[3]:
 
 
-mortality_by_date = pd.read_csv("C:\\Users\\Abeer\\Documents\\2.MSBA Program\\MSBA385_HealthcareAnalytics\\Health_analytics_project\\covid_mortalities_by_time.csv")
+mortality_by_date = pd.read_csv("covid_mortalities_by_time.csv")
 
 
 # In[4]:
 
 
-life_expectancy = pd.read_csv("C:\\Users\\Abeer\\Documents\\2.MSBA Program\\MSBA385_HealthcareAnalytics\\Health_analytics_project\\life_expectancy.csv")
+life_expectancy = pd.read_csv("life_expectancy.csv")
 
 
 # In[5]:
 
 
-mortality_by_country = pd.read_csv('C:\\Users\\Abeer\\Documents\\2.MSBA Program\\MSBA385_HealthcareAnalytics\\Health_analytics_project\\WHO_covid_data.csv')
+mortality_by_country = pd.read_csv('WHO_covid_data.csv')
 
 
 # In[6]:
 
 
-healthsystem_rank = pd.read_csv('C:\\Users\\Abeer\\Documents\\2.MSBA Program\\MSBA385_HealthcareAnalytics\\Health_analytics_project\\WHO_healthsystem_rank.csv')
+healthsystem_rank = pd.read_csv('WHO_healthsystem_rank.csv')
 
 
 # In[7]:
 
 
-pop_data = pd.read_csv("C:\\Users\\Abeer\\Documents\\2.MSBA Program\\MSBA385_HealthcareAnalytics\\Health_analytics_project\\IHME_population_age.csv")
+pop_data = pd.read_csv("IHME_population_age.csv")
 
 
 # In[8]:

@@ -51,7 +51,7 @@ healthsystem_rank = pd.read_csv('./WHO_healthsystem_rank.csv')
 # In[7]:
 
 
-pop_data = pd.read_csv("./IHME_population_age.csv")
+pop_data = pd.read_csv("./IHME_population_age.CSV")
 
 
 # In[8]:

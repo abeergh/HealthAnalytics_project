@@ -3,7 +3,7 @@
 
 # #  Setup and import libraries
 
-# In[3]:
+# In[2]:
 
 
 import streamlit as st
@@ -24,76 +24,89 @@ from ipywidgets import AppLayout, Button, Layout
 #      2. Covid data: csv file that includes data about total confirmed cases and deaths by country
 #      3. Health System Ranking: csv file that includes the ranking of health system performance by country
 
-# In[110]:
+# In[3]:
 
 
-all_mortality = pd.read_csv("C:\\Users\\Abeer\\Documents\\2.MSBA Program\\MSBA385_HealthcareAnalytics\\Health_analytics_project\\covid_mortalities_by_time.csv")
-
-
-# In[132]:
-
-
-life_expectancy = pd.read_csv("C:\\Users\\Abeer\\Documents\\2.MSBA Program\\MSBA385_HealthcareAnalytics\\Health_analytics_project\\life_expectancy.csv")
-
-
-# In[133]:
-
-
-covid_mor = pd.read_csv('C:\\Users\\Abeer\\Documents\\2.MSBA Program\\MSBA385_HealthcareAnalytics\\Health_analytics_project\\WHO_covid_data.csv')
-
-
-# In[134]:
-
-
-healthsystem_rank = pd.read_csv('C:\\Users\\Abeer\\Documents\\2.MSBA Program\\MSBA385_HealthcareAnalytics\\Health_analytics_project\\WHO_healthsystem_rank.csv')
+mortality_by_date = pd.read_csv("C:\\Users\\Abeer\\Documents\\2.MSBA Program\\MSBA385_HealthcareAnalytics\\Health_analytics_project\\covid_mortalities_by_time.csv")
 
 
 # In[4]:
 
 
-pop_data = pd.read_csv("C:\\Users\\Abeer\\Documents\\2.MSBA Program\\MSBA385_HealthcareAnalytics\\Health_analytics_project\\IHME_population_age.csv")
+life_expectancy = pd.read_csv("C:\\Users\\Abeer\\Documents\\2.MSBA Program\\MSBA385_HealthcareAnalytics\\Health_analytics_project\\life_expectancy.csv")
 
 
 # In[5]:
 
 
-pop_data = pop_data.loc[(pop_data['age_group_name']!='Early Neonatal') | (pop_data['age_group_name']!='Late Neonatal')|(pop_data['age_group_name']!='Post Neonatal')]
+mortality_by_country = pd.read_csv('C:\\Users\\Abeer\\Documents\\2.MSBA Program\\MSBA385_HealthcareAnalytics\\Health_analytics_project\\WHO_covid_data.csv')
 
 
 # In[6]:
 
 
+healthsystem_rank = pd.read_csv('C:\\Users\\Abeer\\Documents\\2.MSBA Program\\MSBA385_HealthcareAnalytics\\Health_analytics_project\\WHO_healthsystem_rank.csv')
+
+
+# In[7]:
+
+
+pop_data = pd.read_csv("C:\\Users\\Abeer\\Documents\\2.MSBA Program\\MSBA385_HealthcareAnalytics\\Health_analytics_project\\IHME_population_age.csv")
+
+
+# In[8]:
+
+
+#subet the population data set to the three main columns to use for analysis
 df = pop_data[['location_name', 'age_group_name', 'val']]
 
 
-# In[135]:
+# In[15]:
+
+
+pop_data['age_group_name'].value_counts()
+mapping = {'1 to 4 ':'1 to 15','10 to 14':'1 to 15','Early Neonatal':'1 to 15' ,'Late Neonatal':'1 to 15','Post Neonatal':'1 to 15',
+           '20 to 24':'16 to 39','25 to 29':'16 to 39','35 to 39 ':'16 to 39','30 to 34':'16 to 39','40 to 44':'40 to 59',
+           '45 to 49':'40 to 59','50 to 54':'40 to 59','55 to 59':'40 to 59',
+           '60 to 64':'60 to 80','65 to 69':'60 to 80','70 to 74':'60 to 80','75 to 80':'60 to 80',
+           '80 to 84':'>80','85 to 89':'>80 ','90 to 94':'>80','95 plus':'>80'   
+}
+
+
+# In[16]:
+
+
+pop_data['age_group_name'] = pop_data['age_group_name'].replace(mapping)
+
+
+# In[9]:
 
 
 #merge the life expectancy dataframe with the covid_data in one dataframe
-df_merged = pd.merge(life_expectancy,covid_mor, on='Country')
+df_merged = pd.merge(life_expectancy,mortality_by_country, on='Country')
 df_merged2 = pd.merge(df_merged,healthsystem_rank,on='Country')
 
 
-# In[123]:
+# In[11]:
 
 
-all_mortality =all_mortality.loc[(all_mortality['location']=='World')]
+mortality_by_date =mortality_by_date.loc[(mortality_by_date['location']=='World')]
 
 
-# In[124]:
+# In[12]:
 
 
 #extract month and year from date field in the mortality dataframe
-all_mortality['date'] = pd.to_datetime(all_mortality['date'], errors='coerce')
-all_mortality['Period'] = pd.to_datetime(all_mortality['date']).dt.to_period('M')
+mortality_by_date['date'] = pd.to_datetime(mortality_by_date['date'], errors='coerce')
+mortality_by_date['Period'] = pd.to_datetime(mortality_by_date['date']).dt.to_period('M')
 #group results by sum of total deaths
 #df_fig0 =all_mortality.groupby(['month_year']).agg({'new_deaths':'sum'}).unstack(level=0)
 
 
-# In[125]:
+# In[13]:
 
 
-df_fig0 =all_mortality[['location','Period','total_deaths']]
+df_fig0 =mortality_by_date[['location','Period','total_deaths']]
 df_fig0 = df_fig0.rename(columns={'total_deaths':'Total Deaths'})
 
 
